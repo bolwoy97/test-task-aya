@@ -1,17 +1,22 @@
-function parsePayload(payload) {
-  const lines = payload.split('\n');
-  const result = [];
+const current = {
+  employee: null,
+  department: null,
+  salaries: null,
+  statement: null,
+  donation: null,
+  rate: null
+}
+let propName;
+
+const result = { employees: [], rates: [] };
+
+module.exports.getResult = function () {
+  return result;
+}
+
+module.exports.parsePayload = function (payload) {
   
-  const current = {
-    employee: null,
-    department: null,
-    salaries: null,
-    statement: null,
-    donation: null
-  }
-  let propName;
-
-
+  const lines = payload.split('\n');
   for (const line of lines) {
     if (line.trim() === '') {
       continue;
@@ -23,7 +28,7 @@ function parsePayload(payload) {
       case 'Employee':
         propName = 'employee';
         current.employee = {};
-        result.push(current.employee);
+        result.employees.push(current.employee);
         break;
       case 'Department':
         propName = 'department';
@@ -50,6 +55,14 @@ function parsePayload(payload) {
         current.donation = {};
         current.employee.donations.push(current.donation);
         break;
+      case 'Rate':
+        propName = 'rate';
+        if (!result.rates) {
+          result.rates = [];
+        }
+        current.rate = {};
+        result.rates.push(current.rate);
+        break;
       case 'id':
         current[propName].id = value;
         break;
@@ -71,7 +84,12 @@ function parsePayload(payload) {
       case 'date':
         current[propName].date = value;
         break;
-      // You can add cases for Donation and Rate properties if needed
+      case 'sign':
+        current[propName].sign = value;
+        break;
+      case 'value':
+        current[propName].value = parseFloat(value);
+        break;
       default:
         break;
     }
@@ -79,6 +97,7 @@ function parsePayload(payload) {
 
   return result;
 }
+
 
 const textPayload = `
 Employee
@@ -129,5 +148,5 @@ Employee
     amount: 402.36 USD
 `;
 
-const parsedData = parsePayload(textPayload);
-console.log(parsedData);
+// const parsedData = parsePayload(textPayload);
+// console.log(parsedData);
