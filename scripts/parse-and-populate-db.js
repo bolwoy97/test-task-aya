@@ -1,6 +1,6 @@
 var fs = require('fs');
-const { Parser } = require('./utils/parser');
-const { prepareRecords, insertToDb } = require('./utils/insert-to-db');
+const { Parser } = require('../utils/parser');
+const { prepareRecords, insertToDb } = require('../utils/insert-to-db');
 
 
 var remaining = '';
