@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
+const { dbName } = require('../utils/constants');
 
-
-let db = new sqlite3.Database('./db/employees.db', (err) => {
+let db = new sqlite3.Database(dbName, (err) => {
   if (err) {
     console.error(err.message);
   }
