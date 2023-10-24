@@ -1,5 +1,5 @@
 var fs = require('fs');
-const { parsePayload, getResult } = require('./parser');
+const { parsePayload, getResult } = require('./utils/parser');
 
 var input = fs.createReadStream('dump.txt');
 input.on('data', function(data) {
