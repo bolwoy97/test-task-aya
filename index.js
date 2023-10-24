@@ -7,17 +7,20 @@ const port = 3000;
 app.get('/calculate-rewards', (req, res) => {
   const db = new sqlite3.Database(dbName);
   const query = `
-    SELECT employees.id, employees.name, employees.surname,
-    SUM(donations.amount) AS donationsSum,
+    SELECT id, name, surname, donationsSum, totalDonations,
     CASE
-    WHEN SUM(donations.amount) > 100 THEN
-      100 * SUM(donations.amount) * 100 / (SELECT SUM(donations.amount) FROM donations)
+    WHEN SUM(donationsSum) > 100 THEN
+      100 * SUM(donationsSum) * 100 / totalDonations
     ELSE 0
     END AS oneTimeReward
+    FROM (SELECT employees.id, employees.name, employees.surname,
+    SUM(donations.amount) AS donationsSum,
+    (SELECT SUM(donations.amount) FROM donations) AS totalDonations
     FROM employees
     LEFT JOIN donations ON employees.id = donations.employee_id
     GROUP BY employees.id
-    HAVING donationsSum > 100;
+    HAVING donationsSum > 100) 
+    GROUP BY id
   `;
 
   db.all(query, (err, rows) => {
