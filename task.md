@@ -45,7 +45,12 @@ Objective: demonstrate that the design desicions you made were solid by
 answering the questions.
 
 1. How to change the code to support different file versions?
+   -- move file consumption into a separate function, chek version indicator and choose the appropriate parsing logic
+
 2. How the import system will change if data on exchange rates disappears from
    the file, and it will need to be received asynchronously (via API)?
+   -- make a separete module for fetching rates and fetch the exchange rates before or during the data import process, depending on the API.
 3. In the future the client may want to import files via the web interface,
    how can the system be modified to allow this?
+   -- create an Express route to handle file uploads via a POST request from the web interface,
+   use some middleware lib for handling files (multer), modify current logic to work with uploaded file
