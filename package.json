@@ -8,6 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "drop-db": "node scripts/drop-all.js",
+    "prepare-db": "node scripts/prepare-db.js",
     "parser": "node scripts/parse-and-populate-db.js",
     "start": "node index"
   },
